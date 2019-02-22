@@ -1,0 +1,72 @@
+//this file is written in node.js -> you can see results pasting it into ideone.com/ 
+let A = `photo.jpg, Warszawa, 2018.06.23 21:33
+red.png, Warszawa, 2010.06.23 21:32
+cdpr.htm, Warszawa, 2019.06.23 21:32
+dre.css, Warszawa, 2018.06.23 21:32
+audi.exe, Warszawa, 2017.06.23 21:32
+rreen.def, Warszawa, 2016.06.23 21:32
+rreen.eco, Warszawa, 2015.06.23 21:32
+rreen.ifo, Warszawa, 2014.06.23 21:32
+rreen.gif, Warszawa, 2013.06.23 21:32
+rreen.ico, Warszawa, 2012.06.23 21:32
+lsd.pdf, Warszawa, 1013.06.23 21:32
+rreen.pss, Warszawa, 2011.06.23 21:32
+gsdpa.asd, Warszawa, 2001.06.23 21:32
+rexa.rew, Warszawa, 2028.06.23 21:32
+whit.rar, Warszawa, 2038.06.23 21:32
+rreen.png, Warszawa, 2048.06.23 21:32
+rose.doc, Krakow, 2016.06.23 22:22
+black.his, Tychy, 2021.01.21 11:11
+white.his, Tychy, 2021.01.21 11:01
+poooooop.pee, Warszawa, 2222.22.22 22:22`;
+
+function Solution(A) {
+    var line = A.split('\n'), album = [], photo = {}
+    for (i = 0; i < line.length; i++) {
+        from = line[i].indexOf(',')
+        end = line[i].lastIndexOf(',')
+        photo = { 
+            date: line[i].substr(end+2, 4)
+                .concat(line[i].substr(end+7,2))
+                .concat(line[i].substr(end+10,2))
+                .concat(line[i].substr(end+13,2))
+                .concat(line[i].substr(end+16,2)),
+            extension: line[i].substring(from-4, from),
+            city: line[i].substring(from+2, end) }
+            //console.log(photo)
+        album.push(photo)
+    }
+    let arrCit = []
+    //console.log(album.forEach(x => console.log(x.date, x.city, x.extension)))
+    for (var i = 0; i < album.length; i++) {
+        //newArr for property "kolejnosc"
+        let newArr = []
+        if (arrCit.indexOf(album[i].city) == -1) {
+            //fill newArr with same city 
+            for (g = 0; g < album.length; g++) {
+                if(album[i].city == album[g].city) newArr.push(album[g])
+            }
+            //console.log(newArr[0].date, newArr[1].date, newArr[0].date<newArr[1].date)
+            newArr.sort(function(a, b){return a.date - b.date})
+            
+            //console.log(newArr[0])
+            for (h = 0; h < newArr.length; h++ ) {
+                h < 10 ? kol = '0'+h : kol=h
+                newArr[h].kolejnosc = kol
+            }
+            //newArr.map(x => console.log(x)) 
+            arrCit.push(album[i].city)    
+        }
+    }
+    //album.map(x => console.log(x))
+
+    let result = []  
+    for (i = 0; i < album.length; i++) 
+    result.push(album[i].city
+         + album[i].kolejnosc
+         + album[i].extension)
+         
+    result.map(x => console.log(x))
+    return result
+}
+Solution(A)
